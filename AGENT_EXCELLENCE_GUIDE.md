@@ -4,7 +4,7 @@
 
 | Document Info | |
 |---------------|---|
-| **Version** | 2.0 |
+| **Version** | 3.0 |
 | **Classification** | Internal - Development Teams |
 | **Created** | {{DOCUMENT_CREATED_DATE}} |
 | **Last Updated** | {{DOCUMENT_LAST_UPDATED}} |
@@ -18,6 +18,7 @@
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
+| 3.0 | {{DOCUMENT_LAST_UPDATED}} | {{DOCUMENT_OWNER}} | Added: No Workarounds rule, Technology Validation, Responsive Design, Cross-Document Consistency, Third-Party Integration, Framework Layer Debugging |
 | 2.0 | {{DOCUMENT_LAST_UPDATED}} | {{DOCUMENT_OWNER}} | Technology-agnostic refactor, multi-language examples |
 | 1.0 | {{DOCUMENT_CREATED_DATE}} | {{DOCUMENT_OWNER}} | Initial release |
 
@@ -39,15 +40,40 @@ This guide establishes the standards, workflows, and principles that enable AI c
 ## Table of Contents
 
 1. [Critical Rules - Read First](#1-critical-rules---read-first)
+   - 1.1 The Prime Directive
+   - 1.2 The Non-Negotiable Rules (Rules 1-6)
+     - Rule 1: Never Remove Functionality
+     - Rule 2: Verify Before Claiming Success
+     - Rule 3: Monitor All Operations
+     - Rule 4: Complete All Checklists
+     - **Rule 5: No Workarounds** *(v3.0)*
+     - **Rule 6: Validate Technology Choices** *(v3.0)*
 2. [Mandatory Checklists](#2-mandatory-checklists)
 3. [Core Principles & Mindset](#3-core-principles--mindset)
 4. [Workflow Patterns](#4-workflow-patterns)
 5. [Problem-Solving Strategies](#5-problem-solving-strategies)
+   - 5.1 The Debugging Hierarchy
+   - 5.2 Search Strategies
+   - 5.3 Root Cause Analysis
+   - **5.4 Framework/Technology Layer Issues** *(v3.0)*
 6. [Code Quality Standards](#6-code-quality-standards)
 7. [Communication Standards](#7-communication-standards)
+   - 7.1 Status Updates
+   - 7.2 Testing Requests
+   - 7.3 Problem Reporting
+   - 7.4 Asking for Help
+   - **7.5 Cross-Document Consistency** *(v3.0)*
 8. [Technical Excellence](#8-technical-excellence)
+   - 8.1 Architecture Awareness
+   - 8.2 Performance Considerations
+   - 8.3 Security Considerations
+   - **8.4 Responsive Design Verification** *(v3.0)*
 9. [Debugging & Troubleshooting](#9-debugging--troubleshooting)
 10. [Build & Deployment](#10-build--deployment)
+    - 10.1 Build Verification
+    - 10.2 Deployment Verification
+    - 10.3 Rollback Awareness
+    - **10.4 Third-Party Service Integration** *(v3.0)*
 11. [Version Control](#11-version-control)
 12. [Common Pitfalls & Solutions](#12-common-pitfalls--solutions)
 13. [Quick Reference](#13-quick-reference)
@@ -112,6 +138,51 @@ This principle underpins every rule in this guide. Every action you take should 
 **Every mandatory checklist in this guide must be completed and reported.**
 
 Skipping checklists is not permitted. If a checklist cannot be completed, report the blocker and wait for guidance.
+
+#### Rule 5: No Workarounds
+
+**A workaround is a symptom of an undiagnosed root cause.**
+
+| ❌ WORKAROUNDS | ✅ PROPER FIXES |
+|----------------|-----------------|
+| "Let's use static files instead" | "The storage bucket needs Blaze plan — here's why" |
+| "We'll hardcode this for now" | "The config system needs fixing — here's the plan" |
+| "I'll duplicate the code here" | "This should be extracted to shared module — here's how" |
+| "It works if we just..." | "The root cause is X, proper fix is Y" |
+
+**When a workaround is tempting:**
+
+1. **STOP** — It means you haven't found the root cause
+2. **ASK** — "What would a proper fix look like?"
+3. **ESCALATE** — If proper fix is blocked, explain why to user
+4. **DOCUMENT** — If workaround is approved by user, document the tech debt
+
+**Why this matters:** Workarounds compound. Today's shortcut is tomorrow's mystery bug. Every workaround creates hidden dependencies that future agents (or humans) must discover the hard way.
+
+**The Only Exception:** You may implement a workaround ONLY when the user explicitly approves it after you have explained the trade-offs and documented the technical debt created.
+
+#### Rule 6: Validate Technology Choices
+
+**NEVER adopt a framework, library, or major version without validation.**
+
+| ❌ TECHNOLOGY FAILURES | ✅ TECHNOLOGY VALIDATION |
+|------------------------|--------------------------|
+| "It's the latest version, should be fine" | "Reviewed changelog, tested critical features" |
+| "Documentation says it works" | "Confirmed with working prototype" |
+| "Everyone uses this" | "Verified it matches our use case" |
+| "We can figure it out" | "Team has expertise or learning time budgeted" |
+
+**Before committing to a technology:**
+
+1. **CHECK VERSION STABILITY** — Is this stable/LTS? Beta/RC requires explicit approval
+2. **REVIEW BREAKING CHANGES** — What changed from previous versions?
+3. **TEST IN ISOLATION** — Do critical features work as expected?
+4. **ASSESS EXPERTISE** — Does the team know this, or is learning required?
+5. **PLAN ROLLBACK** — What's the fallback if issues emerge?
+
+**When Technology Fails Subtly:**
+
+If surface-level fixes don't stick, suspect the framework/library layer. Test the problematic pattern in isolation before blaming application code.
 
 ---
 
@@ -434,6 +505,68 @@ SYMPTOM: Button doesn't work
                └── Yes
                      │
                      └── Is the result displayed? ──▶ No ──▶ ROOT CAUSE: UI update issue
+```
+
+### 5.4 Framework/Technology Layer Issues
+
+**When surface-level fixes don't work, go deeper.**
+
+```
+SYMPTOM ESCALATION PATTERN:
+
+Application Code Issue
+    ↓ (fix doesn't stick)
+Library/Framework Issue  
+    ↓ (fix doesn't stick)
+Configuration/Environment Issue
+    ↓ (fix doesn't stick)
+Fundamental Technology Choice Issue
+```
+
+**When to Suspect the Framework Layer:**
+
+| Warning Sign | What It Suggests |
+|--------------|------------------|
+| Same "type" of bug keeps appearing | Framework limitation or misuse |
+| Fixes work in isolation but fail in context | Build/compilation issue |
+| Documentation says it should work but doesn't | Version mismatch or breaking change |
+| Recent major version upgrade | Undocumented breaking changes |
+| Works in dev but not prod | Environment-specific framework behavior |
+
+**Investigation Protocol:**
+
+1. **ISOLATE** — Create minimal reproduction outside your app
+2. **SEARCH** — Check framework's issue tracker for known problems
+3. **VERSION TEST** — Try previous stable version
+4. **EVALUATE** — Consider if technology choice is appropriate
+
+**Framework Layer Debugging Checklist:**
+
+```
+FRAMEWORK LAYER INVESTIGATION:
+
+- [ ] Issue reproduced in minimal standalone example: [Yes/No]
+- [ ] Framework version: [version]
+- [ ] Known issues found: [links or N/A]
+- [ ] Works with previous version: [Yes/No/Not Tested]
+- [ ] Root cause identified: [framework bug / misconfiguration / wrong tool]
+
+DECISION:
+- [ ] Framework is correct, fix application code
+- [ ] Framework has bug, implement workaround (with user approval)
+- [ ] Framework is wrong choice, propose alternative
+```
+
+**Real-World Example:**
+
+```
+Session: SCAINET Website Build
+Symptom: Card backgrounds not visible
+Surface fix attempt: Change color values → Didn't work
+Deeper fix attempt: Use explicit hex colors → Partially worked
+Root cause: Tailwind v4 opacity modifier syntax (`bg-white/5`) broken
+Real fix: Switch to inline styles for affected properties
+Learning: Validate new major versions before full adoption
 ```
 
 ---
@@ -886,6 +1019,58 @@ Context Files:
 - [file2.py - relevant because...]
 ```
 
+### 7.5 Cross-Document Consistency
+
+**Key claims must be consistent across all materials.**
+
+When you make a statement of fact — a number, a date, a capability claim — that statement may exist in multiple documents. Inconsistency destroys credibility.
+
+**Consistency Principles:**
+
+1. **Identify Key Claims** — Numbers, dates, names, capabilities, status
+2. **Single Source of Truth** — One authoritative document per claim type
+3. **Audit on Change** — When updating a key claim, audit ALL related files
+
+**Examples of Key Claims:**
+
+| Claim Type | Example | Typical Locations |
+|------------|---------|-------------------|
+| Cost/Investment | "$500K seed round" | Pitch deck, executive summary, financial model |
+| Timeline | "2 months to MVP" | Website, pitch deck, case studies |
+| Team | "Chief Builder" | Team page, pitch deck, bios |
+| Product Status | "Beta Ready" | Website, product pages, data room |
+| Metrics | "140K lines of code" | Stats bar, pitch deck, technical review |
+
+**Cross-Document Consistency Checklist:**
+
+```
+CONSISTENCY AUDIT (When updating key claims):
+
+Claim being updated: [description]
+New value: [new value]
+
+Files to audit:
+- [ ] Website pages: [list affected pages]
+- [ ] Pitch deck: [checked/updated]
+- [ ] Executive summary: [checked/updated]
+- [ ] Financial model: [checked/updated]
+- [ ] Other documents: [list]
+
+Total instances found: [N]
+Total instances updated: [N]
+Conflicting versions remaining: [None / list]
+
+REPORT: "Updated [claim] across [N] documents: [file list]"
+```
+
+**When to Perform Consistency Audits:**
+
+- ✅ After any change to numbers (costs, metrics, projections)
+- ✅ After any change to status (product stage, timeline)
+- ✅ After any change to team/personnel descriptions
+- ✅ After any change to key messaging or taglines
+- ✅ Before any external release or presentation
+
 ---
 
 ## 8. Technical Excellence
@@ -931,6 +1116,83 @@ ARCHITECTURE CHECKLIST:
 | **Data Exposure** | Am I exposing sensitive data in logs/responses? |
 | **Injection** | Are queries parameterized? Is output encoded? |
 | **Secrets** | Are secrets stored securely? Not in code/logs? |
+
+### 8.4 Responsive Design Verification
+
+**Mobile-first is not optional for user-facing applications.**
+
+Most users will experience your application on mobile first. Building desktop-first and retrofitting mobile is a recipe for poor UX and costly rework.
+
+**The Mobile-First Principle:**
+
+```
+BUILD ORDER:
+1. Mobile (320px-480px) — Start here, smallest constraint
+2. Tablet (768px-1024px) — Add enhancements
+3. Desktop (1024px+) — Full experience
+4. Test ALL breakpoints before claiming completion
+```
+
+**Responsive Verification Checklist:**
+
+```
+RESPONSIVE VERIFICATION:
+
+Mobile (320px-480px):
+- [ ] Core functionality accessible
+- [ ] Text readable without zooming (min 16px base)
+- [ ] Touch targets adequate (min 44x44px)
+- [ ] No horizontal scrolling
+- [ ] Navigation accessible (hamburger menu, etc.)
+- [ ] Forms usable with mobile keyboard
+
+Tablet (768px-1024px):
+- [ ] Layout adapts appropriately
+- [ ] No awkward spacing or stretching
+- [ ] Touch and mouse both work
+
+Desktop (1024px+):
+- [ ] Full experience available
+- [ ] Efficient use of screen real estate
+- [ ] Hover states work correctly
+
+Cross-Cutting:
+- [ ] Images responsive (srcset or CSS)
+- [ ] Typography scales appropriately
+- [ ] Grids collapse/expand correctly
+- [ ] Modals/overlays work at all sizes
+```
+
+**Common Responsive Failures:**
+
+| Failure | Symptom | Prevention |
+|---------|---------|------------|
+| Desktop-first thinking | Mobile looks "squished" | Build mobile layout first |
+| Fixed widths | Content overflows on mobile | Use relative units, max-width |
+| Tiny touch targets | Users can't tap buttons | Minimum 44x44px touch targets |
+| Horizontal scroll | Layout broken on mobile | Test at 320px width |
+| Unreadable text | Users zoom/pinch constantly | Minimum 16px base font size |
+
+**Testing Protocol:**
+
+1. **Browser DevTools** — Quick iteration at standard breakpoints
+2. **Responsive mode** — Test custom widths, especially 320px
+3. **Real devices** — Verify touch interactions, actual rendering
+4. **Multiple browsers** — Safari iOS, Chrome Android at minimum
+
+**Report Format:**
+
+```
+RESPONSIVE VERIFICATION COMPLETE:
+
+- Mobile (375px): ✅ Verified [specific observations]
+- Tablet (768px): ✅ Verified [specific observations]  
+- Desktop (1440px): ✅ Verified [specific observations]
+- Touch interactions: ✅ Tested on [device/emulator]
+
+Issues found: [None / list]
+Ready for review: [Yes/No]
+```
 
 ---
 
@@ -1050,6 +1312,109 @@ IF deployment fails:
 3. Execute rollback if necessary
 4. Investigate root cause
 5. Fix and re-attempt
+```
+
+### 10.4 Third-Party Service Integration
+
+**External services require controlled handoffs.**
+
+AI agents cannot access external dashboards, billing systems, or service consoles. When integration requires configuration in third-party services, a structured handoff is essential.
+
+**Integration Pattern:**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              THIRD-PARTY INTEGRATION WORKFLOW                    │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  1. IDENTIFY     What steps require human action?               │
+│        │         (Billing, auth, domains, templates)            │
+│        ▼                                                         │
+│  2. SEQUENCE     Order dependencies correctly                   │
+│        │         (Can't deploy if billing not enabled)          │
+│        ▼                                                         │
+│  3. INSTRUCT     Provide exact navigation paths                 │
+│        │         (Console → Project → Settings → ...)           │
+│        ▼                                                         │
+│  4. CONFIRM      Wait for user to confirm completion            │
+│        │         (Don't assume, verify)                         │
+│        ▼                                                         │
+│  5. PROCEED      Continue with automated steps                  │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Common Manual Steps by Service:**
+
+| Service | Common Manual Steps |
+|---------|---------------------|
+| **Firebase** | Blaze plan upgrade, authorized domains, email templates, API keys |
+| **Vercel** | Domain purchase, team settings, environment variables |
+| **AWS** | IAM permissions, billing alerts, region selection |
+| **Stripe** | Webhook endpoints, API keys, tax settings |
+| **GitHub** | Repository visibility, branch protection, secrets |
+| **Auth Providers** | OAuth app registration, redirect URIs, scopes |
+
+**Handoff Format:**
+
+```
+MANUAL STEP REQUIRED:
+
+Service: [Firebase/Vercel/AWS/etc.]
+Action: [Specific action needed]
+
+Steps:
+1. Navigate to [exact URL or path]
+2. Click [exact button/link]
+3. Configure [specific setting]
+4. [Additional steps as needed]
+
+Why This Can't Be Automated:
+[Brief explanation - billing, security, etc.]
+
+What Happens After:
+[What I'll do once this is confirmed]
+
+⏳ Waiting for confirmation before proceeding.
+```
+
+**Dependency Documentation:**
+
+When multiple manual steps exist, document the dependency chain:
+
+```
+THIRD-PARTY INTEGRATION PLAN:
+
+Step 1: [Manual] Enable billing on Firebase
+   └── Required for: Storage, Functions
+   
+Step 2: [Automated] Deploy Firestore rules
+   └── Depends on: Step 1
+   
+Step 3: [Manual] Add authorized domain
+   └── Required for: Authentication
+   
+Step 4: [Automated] Test authentication flow
+   └── Depends on: Steps 1, 2, 3
+```
+
+**Post-Integration Verification:**
+
+```
+THIRD-PARTY INTEGRATION VERIFICATION:
+
+Service: [name]
+Manual steps completed: [list]
+Automated steps completed: [list]
+
+Verification:
+- [ ] Service accessible from application
+- [ ] Authentication working (if applicable)
+- [ ] Data flowing correctly
+- [ ] No console errors related to service
+- [ ] Billing/quotas appropriate
+
+Status: [Ready / Issues found]
 ```
 
 ---
@@ -1259,6 +1624,7 @@ PATTERN MATCHING PROCESS:
 □ Verify correct branch
 □ Complete Pre-Action Checklist
 □ Plan approach before implementing
+□ Validate any new technology choices (Rule 6)
 ```
 
 ### 13.2 During-Work Checklist
@@ -1270,6 +1636,8 @@ PATTERN MATCHING PROCESS:
 □ Handle errors gracefully
 □ Update task tracking as you progress
 □ Never remove functionality without approval
+□ Never implement workarounds without approval (Rule 5)
+□ Test responsive design at key breakpoints
 ```
 
 ### 13.3 Post-Work Checklist
@@ -1279,6 +1647,8 @@ PATTERN MATCHING PROCESS:
 □ Tests pass (with evidence)
 □ Linting clean
 □ Functionality verified working
+□ Responsive design verified (mobile, tablet, desktop)
+□ Cross-document consistency verified (if applicable)
 □ Documentation updated if needed
 □ Commit with proper message
 □ Complete Post-Action Verification
@@ -1293,8 +1663,35 @@ PATTERN MATCHING PROCESS:
 □ Test ONE thing at a time
 □ Compare with working code
 □ Search codebase for similar solutions
+□ Consider framework/technology layer issues (Section 5.4)
 □ Document what you've tried
 □ Ask for help with full context
+□ Never resort to workarounds without explicit approval
+```
+
+### 13.5 Third-Party Integration Quick Reference
+
+```
+□ Identify all manual steps required
+□ Document dependency order
+□ Provide exact navigation instructions
+□ Wait for confirmation before proceeding
+□ Verify integration after manual steps complete
+```
+
+### 13.6 New Rules Quick Reference (v3.0)
+
+```
+RULE 5: NO WORKAROUNDS
+- Workaround = undiagnosed root cause
+- Escalate blockers, don't work around them
+- Document tech debt if workaround approved
+
+RULE 6: VALIDATE TECHNOLOGY
+- Check version stability before adoption
+- Review breaking changes
+- Test critical features in isolation
+- Have a rollback plan
 ```
 
 ---
@@ -1325,7 +1722,21 @@ You're doing it right when:
 
 ---
 
-**Document Version:** 2.0  
+**Document Version:** 3.0
+
+**Version 3.0 Additions (Battle-Tested):**
+
+These additions were developed from real-world observations during the SCAINET website build:
+
+| Addition | Origin | Impact |
+|----------|--------|--------|
+| Rule 5: No Workarounds | Firebase Storage region issue | Prevents tech debt accumulation |
+| Rule 6: Technology Validation | Tailwind v4 opacity failures | Prevents costly framework rework |
+| Section 5.4: Framework Layer Issues | Multi-hour debugging session | Faster root cause identification |
+| Section 7.5: Cross-Document Consistency | Multiple doc updates for costs | Maintains credibility |
+| Section 8.4: Responsive Design | Mobile fixes post-launch | Ensures mobile-first quality |
+| Section 10.4: Third-Party Integration | Firebase manual steps | Smoother handoffs |
+
 **Template Variables Required:**
 - `{{PROJECT_NAME}}` - Name of the project
 - `{{DOCUMENT_CREATED_DATE}}` - Original creation date
