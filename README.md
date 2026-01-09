@@ -8,15 +8,41 @@
 
 ## 🎯 What's Included
 
+### Core Framework (AI Agent Standards)
+
 | Template | Purpose |
 |----------|---------|
-| **AGENT_EXCELLENCE_GUIDE.md** | Comprehensive standards and workflows for AI coding agents |
+| **AGENT_EXCELLENCE_GUIDE.md** | Comprehensive standards and workflows for AI coding agents (v3.0) |
 | **FUNCTIONALITY_REMOVAL_INCIDENT_REPORT.md** | Incident documentation with example and reusable template |
+| **CONTEXT_MANAGEMENT_ADDENDUM.md** | Long session management and handover protocols |
+
+### Development & Release
+
+| Template | Purpose |
+|----------|---------|
 | **RELEASE_INSTRUCTIONS_FOR_AGENTS.md** | Platform-agnostic deployment procedures |
 | **CHANGELOG.md** | Keep a Changelog format template with guidelines |
 | **RELEASE_NOTES_TEMPLATE.md** | Comprehensive release notes template |
 | **build_and_distribute_template.ps1** | Generic build/distribution automation script |
 | **release_to_qa_template.ps1** | QA release automation script |
+| **TECHNICAL_DEBT_TEMPLATE.md** | Track and manage technical debt |
+| **SECURITY_TEMPLATE.md** | Security policies and practices |
+
+### Startup & Business (NEW in v3.0)
+
+| Template | Purpose |
+|----------|---------|
+| **INVESTOR_MATERIALS_GUIDE.md** | Complete guide to creating investor/fundraising materials |
+| **BRAND_ASSETS_TEMPLATE.md** | Document brand colors, typography, logos, voice |
+| **LANDING_PAGE_CHECKLIST.md** | High-converting startup landing page structure |
+
+### Operations & Consistency (NEW in v3.0)
+
+| Template | Purpose |
+|----------|---------|
+| **DEPLOYMENT_CHECKLIST.md** | Production deployment with domain, SSL, monitoring |
+| **THIRD_PARTY_SERVICES_LOG.md** | Track external services, credentials, integrations |
+| **CROSS_DOCUMENT_CONSISTENCY.md** | Maintain consistency across all documentation |
 
 ---
 
@@ -219,13 +245,32 @@ VERSION_FILE = "build.gradle"
 ```
 Chazwazza/
 ├── README.md                              # This file
-├── AGENT_EXCELLENCE_GUIDE.md              # AI agent standards
+│
+├── # Core Framework
+├── AGENT_EXCELLENCE_GUIDE.md              # AI agent standards (v3.0)
+├── CONTEXT_MANAGEMENT_ADDENDUM.md         # Session management
 ├── FUNCTIONALITY_REMOVAL_INCIDENT_REPORT.md # Incident template
+│
+├── # Development & Release
 ├── RELEASE_INSTRUCTIONS_FOR_AGENTS.md     # Deployment procedures
 ├── CHANGELOG.md                           # Changelog template
 ├── RELEASE_NOTES_TEMPLATE.md              # Release notes template
+├── TECHNICAL_DEBT_TEMPLATE.md             # Tech debt tracking
+├── SECURITY_TEMPLATE.md                   # Security policies
 ├── build_and_distribute_template.ps1      # Build script template
 ├── release_to_qa_template.ps1             # QA release script template
+│
+├── # Startup & Business (v3.0)
+├── INVESTOR_MATERIALS_GUIDE.md            # Fundraising materials guide
+├── BRAND_ASSETS_TEMPLATE.md               # Brand documentation
+├── LANDING_PAGE_CHECKLIST.md              # Landing page structure
+│
+├── # Operations & Consistency (v3.0)
+├── DEPLOYMENT_CHECKLIST.md                # Production deployment
+├── THIRD_PARTY_SERVICES_LOG.md            # External services tracking
+├── CROSS_DOCUMENT_CONSISTENCY.md          # Document consistency
+│
+├── # Meta
 ├── .gitignore                             # Git ignore rules
 ├── LICENSE                                # License file
 └── CONTRIBUTING.md                        # Contribution guidelines
