@@ -74,6 +74,7 @@ This guide establishes the standards, workflows, and principles that enable AI c
     - 10.2 Deployment Verification
     - 10.3 Rollback Awareness
     - **10.4 Third-Party Service Integration** *(v3.0)*
+    - **10.5 CI/CD and Automation Patterns** *(v3.1)*
 11. [Version Control](#11-version-control)
 12. [Common Pitfalls & Solutions](#12-common-pitfalls--solutions)
 13. [Quick Reference](#13-quick-reference)
@@ -1417,6 +1418,133 @@ Verification:
 Status: [Ready / Issues found]
 ```
 
+### 10.5 CI/CD and Automation Patterns
+
+**Automation reduces human toil and ensures consistency.**
+
+When setting up or modifying CI/CD pipelines, follow these patterns to maximize reliability and minimize maintenance burden.
+
+**GitHub Actions Structure:**
+
+```yaml
+# Standard workflow structure
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # Job 1: Fast checks (lint, type-check)
+  lint-and-typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit
+
+  # Job 2: Build (depends on lint)
+  build:
+    needs: lint-and-typecheck
+    steps:
+      - run: npm run build
+
+  # Job 3: Deploy (depends on build, only on main)
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - run: vercel deploy --prod
+```
+
+**Automation Categories:**
+
+| Category | Tool | Purpose |
+|----------|------|---------|
+| Dependency Updates | Dependabot | Auto-PRs for outdated packages |
+| Security Scanning | CodeQL | Vulnerability detection |
+| Quality Gates | GitHub Actions | Lint, type-check, build |
+| Auto-Deploy | Vercel/GitHub Actions | Deploy on merge to main |
+| Performance | Lighthouse CI | Track Core Web Vitals |
+| Error Tracking | Sentry | Production error monitoring |
+
+**Secrets Management:**
+
+```
+SECRETS SETUP CHECKLIST:
+
+1. Identify secrets needed:
+   - [ ] API keys
+   - [ ] Deployment tokens
+   - [ ] Third-party service credentials
+
+2. Add to GitHub Secrets (gh secret set):
+   - [ ] Name follows convention: SERVICE_PURPOSE (e.g., VERCEL_TOKEN)
+   - [ ] Value is current and valid
+   - [ ] Scope is appropriate (repo vs org)
+
+3. Reference in workflows:
+   - [ ] Use ${{ secrets.SECRET_NAME }} syntax
+   - [ ] Never echo or log secret values
+   - [ ] Pass to env only when needed
+
+4. Document in services log:
+   - [ ] Secret name and purpose
+   - [ ] Which workflow uses it
+   - [ ] Rotation schedule (if any)
+```
+
+**CI/CD Setup Verification:**
+
+```
+CI/CD VERIFICATION:
+
+Repository: [name]
+Platform: [GitHub Actions / GitLab CI / etc.]
+
+Workflows:
+- [ ] Lint passes on PR
+- [ ] Type-check passes on PR
+- [ ] Build succeeds on PR
+- [ ] Security scan runs weekly
+- [ ] Auto-deploy triggers on main merge
+- [ ] Dependabot creates PRs for updates
+
+Secrets configured:
+- [ ] [List each secret and its purpose]
+
+Test run:
+- [ ] Create test PR
+- [ ] Verify all checks run
+- [ ] Verify deployment (if applicable)
+- [ ] Clean up test PR
+
+Status: [Ready / Issues found]
+```
+
+**Dependabot Best Practices:**
+
+```yaml
+# dependabot.yml
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    # Group updates to reduce PR noise
+    groups:
+      production-dependencies:
+        patterns: ["*"]
+        exclude-patterns: ["@types/*", "eslint*"]
+        update-types: ["minor", "patch"]
+```
+
 ---
 
 ## 11. Version Control
@@ -1722,7 +1850,13 @@ You're doing it right when:
 
 ---
 
-**Document Version:** 3.0
+**Document Version:** 3.1
+
+**Version 3.1 Additions:**
+
+| Addition | Origin | Impact |
+|----------|--------|--------|
+| Section 10.5: CI/CD and Automation | GitHub Actions + Vercel setup | Standardized automation patterns |
 
 **Version 3.0 Additions (Battle-Tested):**
 

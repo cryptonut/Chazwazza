@@ -12,7 +12,7 @@
 
 | Template | Purpose |
 |----------|---------|
-| **AGENT_EXCELLENCE_GUIDE.md** | Comprehensive standards and workflows for AI coding agents (v3.0) |
+| **AGENT_EXCELLENCE_GUIDE.md** | Comprehensive standards and workflows for AI coding agents (v3.1) |
 | **FUNCTIONALITY_REMOVAL_INCIDENT_REPORT.md** | Incident documentation with example and reusable template |
 | **CONTEXT_MANAGEMENT_ADDENDUM.md** | Long session management and handover protocols |
 
@@ -27,6 +27,14 @@
 | **release_to_qa_template.ps1** | QA release automation script |
 | **TECHNICAL_DEBT_TEMPLATE.md** | Track and manage technical debt |
 | **SECURITY_TEMPLATE.md** | Security policies and practices |
+
+### CI/CD & Automation (NEW in v3.1)
+
+| Template | Purpose |
+|----------|---------|
+| **CI_CD_SETUP_TEMPLATE.md** | Complete GitHub Actions, Dependabot, CodeQL, auto-deploy |
+| **GITHUB_REPO_SETUP.md** | Issue templates, PR templates, community files |
+| **MONITORING_SETUP_TEMPLATE.md** | Sentry error tracking, Vercel/GA analytics, uptime |
 
 ### Startup & Business (NEW in v3.0)
 
@@ -247,7 +255,7 @@ Chazwazza/
 ├── README.md                              # This file
 │
 ├── # Core Framework
-├── AGENT_EXCELLENCE_GUIDE.md              # AI agent standards (v3.0)
+├── AGENT_EXCELLENCE_GUIDE.md              # AI agent standards (v3.1)
 ├── CONTEXT_MANAGEMENT_ADDENDUM.md         # Session management
 ├── FUNCTIONALITY_REMOVAL_INCIDENT_REPORT.md # Incident template
 │
@@ -259,6 +267,11 @@ Chazwazza/
 ├── SECURITY_TEMPLATE.md                   # Security policies
 ├── build_and_distribute_template.ps1      # Build script template
 ├── release_to_qa_template.ps1             # QA release script template
+│
+├── # CI/CD & Automation (v3.1)
+├── CI_CD_SETUP_TEMPLATE.md                # GitHub Actions, Dependabot, CodeQL
+├── GITHUB_REPO_SETUP.md                   # Issue/PR templates, community files
+├── MONITORING_SETUP_TEMPLATE.md           # Error tracking, analytics, uptime
 │
 ├── # Startup & Business (v3.0)
 ├── INVESTOR_MATERIALS_GUIDE.md            # Fundraising materials guide
