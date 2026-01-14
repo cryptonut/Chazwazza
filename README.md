@@ -1,3 +1,14 @@
+> ##  THIS REPOSITORY HAS BEEN ARCHIVED
+> 
+> **This repository has been migrated to the SCAINET Enterprise organization.**
+> 
+>  **New Location:** [scainet-enterprise/Chazwazza](https://github.com/scainet-enterprise/Chazwazza)
+> 
+> **Migration Date:** January 14, 2026
+> 
+> This repository is preserved as a historical snapshot. All active development continues at the new location.
+> 
+> ---
 # Chazwazza 🚀
 
 ## Enterprise Project Starter Kit
@@ -348,4 +359,5 @@ Created with care for teams who want to:
 **Happy Building! 🚀**
 
 *Chazwazza — Because great projects start with great foundations.*
+
 
