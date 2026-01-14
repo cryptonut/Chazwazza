@@ -1,207 +1,258 @@
-> ##  THIS REPOSITORY HAS BEEN ARCHIVED
-> 
-> **This repository has been migrated to the SCAINET Enterprise organization.**
-> 
->  **New Location:** [scainet-enterprise/Chazwazza](https://github.com/scainet-enterprise/Chazwazza)
-> 
-> **Migration Date:** January 14, 2026
-> 
-> This repository is preserved as a historical snapshot. All active development continues at the new location.
-> 
-> ---
 # Chazwazza 🚀
 
-## Enterprise Project Starter Kit
+## The Standard for AI-Assisted Development
 
-**Chazwazza** is a comprehensive, enterprise-grade project starter kit that provides foundational documentation templates for AI-assisted software development projects.
+**Chazwazza** is a comprehensive, enterprise-grade documentation framework designed specifically for AI-assisted software development. It provides 25+ battle-tested templates covering AI agent governance, DevOps, testing, startup operations, and release management.
+
+[![Version](https://img.shields.io/badge/version-3.2-blue.svg)](CHANGELOG.md)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ---
 
-## 🎯 What's Included
+## 📑 Table of Contents
 
-### Core Framework (AI Agent Standards)
+- [Why Chazwazza?](#-why-chazwazza)
+- [What's Included](#-whats-included)
+- [Quick Start](#-quick-start)
+- [Template Reference](#-template-reference)
+  - [AI Agent Standards](#ai-agent-standards)
+  - [DevOps & CI/CD](#devops--cicd)
+  - [Testing](#testing)
+  - [Startup & Business](#startup--business)
+  - [Operations](#operations)
+  - [Build Scripts](#build-scripts)
+- [Examples](#-examples)
+- [Customization Guide](#-customization-guide)
+- [Template Variables](#-template-variables)
+- [Tech Stack Examples](#-tech-stack-examples)
+- [Repository Structure](#-repository-structure)
+- [Contributing](#-contributing)
+- [License](#-license)
 
-| Template | Purpose |
-|----------|---------|
-| **AGENT_EXCELLENCE_GUIDE.md** | Comprehensive standards and workflows for AI coding agents (v3.1) |
-| **FUNCTIONALITY_REMOVAL_INCIDENT_REPORT.md** | Incident documentation with example and reusable template |
-| **CONTEXT_MANAGEMENT_ADDENDUM.md** | Long session management and handover protocols |
+---
 
-### Development & Release
+## 🎯 Why Chazwazza?
 
-| Template | Purpose |
-|----------|---------|
-| **RELEASE_INSTRUCTIONS_FOR_AGENTS.md** | Platform-agnostic deployment procedures |
-| **CHANGELOG.md** | Keep a Changelog format template with guidelines |
-| **RELEASE_NOTES_TEMPLATE.md** | Comprehensive release notes template |
-| **build_and_distribute_template.ps1** | Generic build/distribution automation script |
-| **release_to_qa_template.ps1** | QA release automation script |
-| **TECHNICAL_DEBT_TEMPLATE.md** | Track and manage technical debt |
-| **SECURITY_TEMPLATE.md** | Security policies and practices |
+### The Problem
+AI coding assistants (GitHub Copilot, Cursor, Claude) are powerful but can:
+- Remove functionality without understanding context
+- Introduce workarounds instead of proper fixes
+- Lose context across long sessions
+- Create inconsistent documentation
 
-### CI/CD & Automation (NEW in v3.1)
+### The Solution
+Chazwazza provides **battle-tested governance rules** that prevent common AI mistakes:
 
-| Template | Purpose |
-|----------|---------|
-| **CI_CD_SETUP_TEMPLATE.md** | Complete GitHub Actions, Dependabot, CodeQL, auto-deploy |
-| **GITHUB_REPO_SETUP.md** | Issue templates, PR templates, community files |
-| **MONITORING_SETUP_TEMPLATE.md** | Sentry error tracking, Vercel/GA analytics, uptime |
+> **"Never Remove Functionality"** — AI agents must preserve all existing features unless explicitly requested.
 
-### Startup & Business (NEW in v3.0)
+> **"No Workarounds"** — Forces root cause analysis instead of band-aid fixes.
 
-| Template | Purpose |
-|----------|---------|
-| **INVESTOR_MATERIALS_GUIDE.md** | Complete guide to creating investor/fundraising materials |
-| **BRAND_ASSETS_TEMPLATE.md** | Document brand colors, typography, logos, voice |
-| **LANDING_PAGE_CHECKLIST.md** | High-converting startup landing page structure |
+> **"Validate Technology Choices"** — Prevents AI from inventing non-existent libraries.
 
-### Operations & Consistency (NEW in v3.0)
+These rules emerged from **real incidents** documented in our incident reports.
 
-| Template | Purpose |
-|----------|---------|
-| **DEPLOYMENT_CHECKLIST.md** | Production deployment with domain, SSL, monitoring |
-| **THIRD_PARTY_SERVICES_LOG.md** | Track external services, credentials, integrations |
-| **CROSS_DOCUMENT_CONSISTENCY.md** | Maintain consistency across all documentation |
+---
+
+## 📦 What's Included
+
+| Category | Templates | New in v3.2 |
+|----------|-----------|-------------|
+| **AI Agent Standards** | 3 | — |
+| **DevOps & CI/CD** | 8 | Testing, API Docs, Migration |
+| **Startup & Business** | 3 | — |
+| **Operations** | 4 | Postmortem |
+| **Build Scripts** | 4 | Bash equivalents |
+| **Examples** | 1+ | Filled templates |
 
 ---
 
 ## 🚀 Quick Start
 
-### Option 1: Use as GitHub Template
+### Option 1: GitHub Template
 
-1. Click "Use this template" on GitHub
+1. Click **"Use this template"** on GitHub
 2. Create your new repository
 3. Clone and customize
 
-### Option 2: Manual Setup
+### Option 2: Manual Clone
 
 ```bash
 # Clone the repository
-git clone https://github.com/{{YOUR_ORG}}/Chazwazza.git my-new-project
+git clone https://github.com/YOUR_ORG/Chazwazza.git my-project
+cd my-project
 
-# Navigate to the project
-cd my-new-project
-
-# Remove the Chazwazza git history (start fresh)
+# Remove Chazwazza history (start fresh)
 rm -rf .git
 git init
 
 # Start customizing!
 ```
 
+### Option 3: Copy Specific Templates
+
+```bash
+# Copy just what you need
+curl -O https://raw.githubusercontent.com/ORG/Chazwazza/main/AGENT_EXCELLENCE_GUIDE.md
+```
+
 ---
 
-## 📝 Customization Guide
+## 📋 Template Reference
+
+### AI Agent Standards
+
+| Template | Purpose | Lines |
+|----------|---------|-------|
+| [**AGENT_EXCELLENCE_GUIDE.md**](AGENT_EXCELLENCE_GUIDE.md) | Comprehensive AI agent governance rules (v3.1) | 1,800+ |
+| [**CONTEXT_MANAGEMENT_ADDENDUM.md**](CONTEXT_MANAGEMENT_ADDENDUM.md) | Long session management, handover protocols | 200+ |
+| [**FUNCTIONALITY_REMOVAL_INCIDENT_REPORT.md**](FUNCTIONALITY_REMOVAL_INCIDENT_REPORT.md) | Real incident case study + reusable template | 300+ |
+
+**Key Rules:**
+- ✅ Never remove functionality without explicit request
+- ✅ No workarounds — fix root causes
+- ✅ Validate all technology choices
+- ✅ Preserve human time (verify before testing)
+
+---
+
+### DevOps & CI/CD
+
+| Template | Purpose |
+|----------|---------|
+| [**CI_CD_SETUP_TEMPLATE.md**](CI_CD_SETUP_TEMPLATE.md) | GitHub Actions, GitLab CI, Jenkins, Dependabot |
+| [**DEPLOYMENT_CHECKLIST.md**](DEPLOYMENT_CHECKLIST.md) | Production deployment with domain, SSL, monitoring |
+| [**MONITORING_SETUP_TEMPLATE.md**](MONITORING_SETUP_TEMPLATE.md) | Sentry, Vercel Analytics, uptime monitoring |
+| [**GITHUB_REPO_SETUP.md**](GITHUB_REPO_SETUP.md) | Issue templates, PR templates, community files |
+| [**TECHNICAL_DEBT_TEMPLATE.md**](TECHNICAL_DEBT_TEMPLATE.md) | Track and prioritize technical debt |
+| [**SECURITY_TEMPLATE.md**](SECURITY_TEMPLATE.md) | Security policies and vulnerability disclosure |
+
+**New in v3.2:**
+
+| Template | Purpose |
+|----------|---------|
+| [**templates/devops/TESTING_TEMPLATE.md**](templates/devops/TESTING_TEMPLATE.md) | Jest, Pytest, Go testing setups |
+| [**templates/devops/API_DOCUMENTATION_TEMPLATE.md**](templates/devops/API_DOCUMENTATION_TEMPLATE.md) | OpenAPI/Swagger documentation |
+| [**templates/devops/MIGRATION_TEMPLATE.md**](templates/devops/MIGRATION_TEMPLATE.md) | Database, Git, infrastructure migrations |
+
+---
+
+### Testing
+
+| Framework | Coverage |
+|-----------|----------|
+| **Jest** (JavaScript/TypeScript) | Unit tests, API tests, mocking |
+| **Pytest** (Python) | Unit tests, fixtures, async testing |
+| **Go Testing** | Table-driven tests, benchmarks |
+
+See [templates/devops/TESTING_TEMPLATE.md](templates/devops/TESTING_TEMPLATE.md) for complete setup guides.
+
+---
+
+### Startup & Business
+
+| Template | Purpose |
+|----------|---------|
+| [**INVESTOR_MATERIALS_GUIDE.md**](INVESTOR_MATERIALS_GUIDE.md) | Pitch deck, data room, due diligence |
+| [**BRAND_ASSETS_TEMPLATE.md**](BRAND_ASSETS_TEMPLATE.md) | Colors, typography, logos, voice |
+| [**LANDING_PAGE_CHECKLIST.md**](LANDING_PAGE_CHECKLIST.md) | High-converting landing page structure |
+
+---
+
+### Operations
+
+| Template | Purpose |
+|----------|---------|
+| [**RELEASE_INSTRUCTIONS_FOR_AGENTS.md**](RELEASE_INSTRUCTIONS_FOR_AGENTS.md) | Platform-agnostic deployment procedures |
+| [**THIRD_PARTY_SERVICES_LOG.md**](THIRD_PARTY_SERVICES_LOG.md) | Track external services and credentials |
+| [**CROSS_DOCUMENT_CONSISTENCY.md**](CROSS_DOCUMENT_CONSISTENCY.md) | Maintain consistency across documentation |
+| [**templates/operations/INCIDENT_POSTMORTEM_TEMPLATE.md**](templates/operations/INCIDENT_POSTMORTEM_TEMPLATE.md) | Blameless postmortem with 5 Whys |
+
+---
+
+### Build Scripts
+
+| Script | Platform | Purpose |
+|--------|----------|---------|
+| [**build_and_distribute_template.ps1**](build_and_distribute_template.ps1) | Windows | Build automation with retry logic |
+| [**build_and_distribute_template.sh**](build_and_distribute_template.sh) | Linux/Mac | Build automation (bash equivalent) |
+| [**release_to_qa_template.ps1**](release_to_qa_template.ps1) | Windows | QA release automation |
+| [**release_to_qa_template.sh**](release_to_qa_template.sh) | Linux/Mac | QA release automation (bash) |
+
+---
+
+## 📖 Examples
+
+Real-world examples of filled templates:
+
+| Example | Based On |
+|---------|----------|
+| [**THIRD_PARTY_SERVICES_LOG_EXAMPLE.md**](examples/THIRD_PARTY_SERVICES_LOG_EXAMPLE.md) | SCAINET's actual service configuration |
+
+*Examples show how to populate templates with real data.*
+
+---
+
+## 🔧 Customization Guide
 
 ### Step 1: Global Find & Replace
 
-Replace these template variables across all files:
+Search and replace these variables across all files:
 
 | Variable | Replace With | Example |
 |----------|--------------|---------|
 | `{{PROJECT_NAME}}` | Your project name | "MyAwesomeApp" |
 | `{{DOCUMENT_OWNER}}` | Your name or team | "Platform Team" |
-| `{{DOCUMENT_CREATED_DATE}}` | Today's date | "January 8, 2026" |
-| `{{DOCUMENT_LAST_UPDATED}}` | Today's date | "January 8, 2026" |
+| `{{DOCUMENT_CREATED_DATE}}` | Today's date | "January 14, 2026" |
 | `{{MAIN_BRANCH}}` | Production branch | "main" |
 | `{{QA_BRANCH}}` | QA/staging branch | "release/qa" |
-| `{{DEVELOPMENT_BRANCH}}` | Development branch | "develop" |
-| `{{REPO_URL}}` | Your repository URL | "https://github.com/org/repo" |
+| `{{REPO_URL}}` | Repository URL | "https://github.com/org/repo" |
 
 ### Step 2: Configure Build Scripts
 
-Edit the PowerShell scripts and update the `$Config` section:
+Edit the configuration section in build scripts:
 
-```powershell
-$Config = @{
-    ProjectName = "MyProject"
-    BuildCommand = "npm run build"
-    TestCommand = "npm test"
-    # ... etc
-}
+```bash
+# In build_and_distribute_template.sh
+PROJECT_NAME="MyProject"
+BUILD_COMMANDS["prod"]="npm run build"
+TEST_COMMAND="npm test"
 ```
 
-### Step 3: Customize for Your Tech Stack
+### Step 3: Remove Unused Templates
 
-The templates include multi-language examples. Keep the ones relevant to your project and remove the rest.
-
-### Step 4: Update Incident Report
-
-The `FUNCTIONALITY_REMOVAL_INCIDENT_REPORT.md` contains an example incident. You can:
-- Keep it as a reference example
-- Replace it with your own incident history
-- Remove Part 1 and keep only the template
+Keep only what you need. The framework is modular.
 
 ---
 
-## 📋 Template Variable Reference
+## 📝 Template Variables
 
 ### Document Metadata
 ```
-{{PROJECT_NAME}}              - Project name
-{{DOCUMENT_OWNER}}            - Document maintainer
-{{DOCUMENT_CREATED_DATE}}     - Creation date
-{{DOCUMENT_LAST_UPDATED}}     - Last modification date
-{{MAINTAINER}}                - Project maintainer
+{{PROJECT_NAME}}         - Project name
+{{DOCUMENT_OWNER}}       - Document maintainer  
+{{DOCUMENT_CREATED_DATE}} - Creation date
+{{DOCUMENT_LAST_UPDATED}} - Last modification date
 ```
 
 ### Version Control
 ```
-{{MAIN_BRANCH}}               - Production branch (main/master)
-{{QA_BRANCH}}                 - QA/staging branch (release/qa/staging)
-{{DEVELOPMENT_BRANCH}}        - Development branch (develop/dev)
-{{REPO_URL}}                  - Repository URL
-```
-
-### Versioning
-```
-{{VERSION}}                   - Current version number
-{{PREVIOUS_VERSION}}          - Previous version number
-{{LATEST_VERSION}}            - Latest release version
-{{BUILD_NUMBER}}              - Build/revision number
-{{RELEASE_DATE}}              - Release date
+{{MAIN_BRANCH}}          - Production branch (main/master)
+{{QA_BRANCH}}            - QA/staging branch
+{{DEVELOPMENT_BRANCH}}   - Development branch
+{{REPO_URL}}             - Repository URL
 ```
 
 ### Build & Deploy
 ```
-{{BUILD_COMMAND}}             - Build command for your project
-{{TEST_COMMAND}}              - Test command
-{{LINT_COMMAND}}              - Linting command
-{{CLEAN_COMMAND}}             - Clean/reset command
-{{DEPENDENCY_COMMAND}}        - Dependency install command
-{{DEV_BUILD_COMMAND}}         - Development build command
-{{QA_BUILD_COMMAND}}          - QA/staging build command
-{{PROD_BUILD_COMMAND}}        - Production build command
-```
-
-### Distribution
-```
-{{DISTRIBUTION_COMMAND}}      - Distribution/deploy command
-{{DISTRIBUTION_TARGET}}       - Deploy target URL/server
-{{TESTER_GROUP}}              - QA tester group name
-```
-
-### Artifacts
-```
-{{ARTIFACT_PATH}}             - Build output path
-{{DEV_ARTIFACT_PATH}}         - Development build output
-{{QA_ARTIFACT_PATH}}          - QA build output
-{{PROD_ARTIFACT_PATH}}        - Production build output
-```
-
-### Configuration
-```
-{{VERSION_FILE}}              - File containing version (package.json, etc.)
-{{DEV_CONFIG_PATH}}           - Development config file path
-{{QA_CONFIG_PATH}}            - QA config file path
-{{PROD_CONFIG_PATH}}          - Production config file path
+{{BUILD_COMMAND}}        - Build command
+{{TEST_COMMAND}}         - Test command
+{{DEPENDENCY_COMMAND}}   - Dependency install command
+{{ARTIFACT_PATH}}        - Build output path
 ```
 
 ---
 
-## 🏗️ Tech Stack Examples
-
-The templates are technology-agnostic. Here are common configurations:
+## 🛠️ Tech Stack Examples
 
 ### Node.js / TypeScript
 ```
@@ -209,7 +260,6 @@ BUILD_COMMAND = "npm run build"
 TEST_COMMAND = "npm test"
 LINT_COMMAND = "npm run lint"
 DEPENDENCY_COMMAND = "npm ci"
-VERSION_FILE = "package.json"
 ```
 
 ### Python
@@ -218,25 +268,6 @@ BUILD_COMMAND = "python -m build"
 TEST_COMMAND = "pytest"
 LINT_COMMAND = "flake8 && mypy ."
 DEPENDENCY_COMMAND = "pip install -r requirements.txt"
-VERSION_FILE = "setup.py" or "pyproject.toml"
-```
-
-### Flutter / Dart
-```
-BUILD_COMMAND = "flutter build apk --release"
-TEST_COMMAND = "flutter test"
-LINT_COMMAND = "flutter analyze"
-DEPENDENCY_COMMAND = "flutter pub get"
-VERSION_FILE = "pubspec.yaml"
-```
-
-### .NET / C#
-```
-BUILD_COMMAND = "dotnet build --configuration Release"
-TEST_COMMAND = "dotnet test"
-LINT_COMMAND = "dotnet format --verify-no-changes"
-DEPENDENCY_COMMAND = "dotnet restore"
-VERSION_FILE = "*.csproj"
 ```
 
 ### Go
@@ -245,16 +276,14 @@ BUILD_COMMAND = "go build ./..."
 TEST_COMMAND = "go test ./..."
 LINT_COMMAND = "golangci-lint run"
 DEPENDENCY_COMMAND = "go mod download"
-VERSION_FILE = "version.go"
 ```
 
-### Java / Gradle
+### Flutter / Dart
 ```
-BUILD_COMMAND = "./gradlew build"
-TEST_COMMAND = "./gradlew test"
-LINT_COMMAND = "./gradlew check"
-DEPENDENCY_COMMAND = "./gradlew dependencies"
-VERSION_FILE = "build.gradle"
+BUILD_COMMAND = "flutter build apk --release"
+TEST_COMMAND = "flutter test"
+LINT_COMMAND = "flutter analyze"
+DEPENDENCY_COMMAND = "flutter pub get"
 ```
 
 ---
@@ -264,69 +293,56 @@ VERSION_FILE = "build.gradle"
 ```
 Chazwazza/
 ├── README.md                              # This file
+├── LICENSE                                # MIT License
+├── CHANGELOG.md                           # Version history
+├── CONTRIBUTING.md                        # Contribution guidelines
 │
-├── # Core Framework
-├── AGENT_EXCELLENCE_GUIDE.md              # AI agent standards (v3.1)
+├── # Core AI Agent Framework
+├── AGENT_EXCELLENCE_GUIDE.md              # AI governance rules (v3.1)
 ├── CONTEXT_MANAGEMENT_ADDENDUM.md         # Session management
-├── FUNCTIONALITY_REMOVAL_INCIDENT_REPORT.md # Incident template
+├── FUNCTIONALITY_REMOVAL_INCIDENT_REPORT.md
 │
-├── # Development & Release
-├── RELEASE_INSTRUCTIONS_FOR_AGENTS.md     # Deployment procedures
-├── CHANGELOG.md                           # Changelog template
-├── RELEASE_NOTES_TEMPLATE.md              # Release notes template
-├── TECHNICAL_DEBT_TEMPLATE.md             # Tech debt tracking
-├── SECURITY_TEMPLATE.md                   # Security policies
-├── build_and_distribute_template.ps1      # Build script template
-├── release_to_qa_template.ps1             # QA release script template
+├── # DevOps & CI/CD
+├── CI_CD_SETUP_TEMPLATE.md
+├── DEPLOYMENT_CHECKLIST.md
+├── MONITORING_SETUP_TEMPLATE.md
+├── GITHUB_REPO_SETUP.md
+├── TECHNICAL_DEBT_TEMPLATE.md
+├── SECURITY_TEMPLATE.md
 │
-├── # CI/CD & Automation (v3.1)
-├── CI_CD_SETUP_TEMPLATE.md                # GitHub Actions, Dependabot, CodeQL
-├── GITHUB_REPO_SETUP.md                   # Issue/PR templates, community files
-├── MONITORING_SETUP_TEMPLATE.md           # Error tracking, analytics, uptime
+├── # Release Management
+├── RELEASE_INSTRUCTIONS_FOR_AGENTS.md
+├── RELEASE_NOTES_TEMPLATE.md
 │
-├── # Startup & Business (v3.0)
-├── INVESTOR_MATERIALS_GUIDE.md            # Fundraising materials guide
-├── BRAND_ASSETS_TEMPLATE.md               # Brand documentation
-├── LANDING_PAGE_CHECKLIST.md              # Landing page structure
+├── # Startup & Business
+├── INVESTOR_MATERIALS_GUIDE.md
+├── BRAND_ASSETS_TEMPLATE.md
+├── LANDING_PAGE_CHECKLIST.md
 │
-├── # Operations & Consistency (v3.0)
-├── DEPLOYMENT_CHECKLIST.md                # Production deployment
-├── THIRD_PARTY_SERVICES_LOG.md            # External services tracking
-├── CROSS_DOCUMENT_CONSISTENCY.md          # Document consistency
+├── # Operations
+├── THIRD_PARTY_SERVICES_LOG.md
+├── CROSS_DOCUMENT_CONSISTENCY.md
 │
-├── # Meta
-├── .gitignore                             # Git ignore rules
-├── LICENSE                                # License file
-└── CONTRIBUTING.md                        # Contribution guidelines
+├── # Build Scripts
+├── build_and_distribute_template.ps1      # Windows
+├── build_and_distribute_template.sh       # Linux/Mac
+├── release_to_qa_template.ps1             # Windows
+├── release_to_qa_template.sh              # Linux/Mac
+│
+├── # New Templates (v3.2)
+├── templates/
+│   ├── ai-agent/                          # AI-specific templates
+│   ├── devops/
+│   │   ├── TESTING_TEMPLATE.md            # Jest, Pytest, Go
+│   │   ├── API_DOCUMENTATION_TEMPLATE.md  # OpenAPI/Swagger
+│   │   └── MIGRATION_TEMPLATE.md          # DB/Git/Infra migrations
+│   ├── business/
+│   └── operations/
+│       └── INCIDENT_POSTMORTEM_TEMPLATE.md
+│
+└── examples/
+    └── THIRD_PARTY_SERVICES_LOG_EXAMPLE.md
 ```
-
----
-
-## 🎨 Design Philosophy
-
-### Enterprise-Grade Quality
-- Document control with versioning and ownership
-- Comprehensive cross-references
-- Audit trail support
-- Compliance-ready formatting
-
-### Technology-Agnostic
-- Platform-neutral workflows
-- Multi-language code examples
-- Configurable for any tech stack
-- No vendor lock-in
-
-### AI-Optimized
-- Clear instructions for AI coding agents
-- Mandatory checklists to ensure quality
-- Verification requirements at every step
-- Protection against common AI mistakes
-
-### Human-Centered
-- Respects human time as infinitely valuable
-- Requires verification before human testing
-- Prevents functionality removal without consent
-- Clear communication standards
 
 ---
 
@@ -342,22 +358,32 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
+MIT License — See [LICENSE](LICENSE) for details.
 
 ---
 
 ## 🙏 Acknowledgments
 
-Created with care for teams who want to:
-- Maintain high documentation standards
-- Work effectively with AI coding assistants
-- Ensure consistent release processes
-- Protect their users from unexpected changes
+Created for teams who want to:
+- ✅ Work effectively with AI coding assistants
+- ✅ Maintain high documentation standards
+- ✅ Ensure consistent release processes
+- ✅ Protect users from unexpected changes
 
 ---
 
 **Happy Building! 🚀**
 
-*Chazwazza — Because great projects start with great foundations.*
+*Chazwazza — The Standard for AI-Assisted Development*
 
+---
 
+### Version History
+
+| Version | Date | Highlights |
+|---------|------|------------|
+| **3.2** | Jan 2026 | Testing templates, API docs, migrations, bash scripts, postmortems |
+| **3.1** | Jan 2026 | CI/CD, monitoring, GitHub repo setup |
+| **3.0** | Dec 2025 | Business templates, operations guides |
+| **2.0** | Nov 2025 | Build scripts, deployment checklists |
+| **1.0** | Oct 2025 | Initial AI agent framework |
