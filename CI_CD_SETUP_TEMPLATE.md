@@ -296,16 +296,360 @@ Documentation:
 
 ---
 
+## 7. GitLab CI Configuration
+
+Create `.gitlab-ci.yml` in your repository root:
+
+```yaml
+# GitLab CI/CD Pipeline
+# Equivalent to GitHub Actions workflow
+
+stages:
+  - lint
+  - test
+  - build
+  - deploy
+
+variables:
+  NODE_VERSION: "20"
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+# Cache node_modules across jobs
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm/
+    - node_modules/
+
+# ============================================
+# LINT & TYPE CHECK
+# ============================================
+lint:
+  stage: lint
+  image: node:${NODE_VERSION}
+  script:
+    - npm ci
+    - npm run lint
+    - npx tsc --noEmit
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# ============================================
+# TEST
+# ============================================
+test:
+  stage: test
+  image: node:${NODE_VERSION}
+  script:
+    - npm ci
+    - npm test -- --coverage
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+    paths:
+      - coverage/
+    expire_in: 1 week
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# ============================================
+# BUILD
+# ============================================
+build:
+  stage: build
+  image: node:${NODE_VERSION}
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+      - .next/
+    expire_in: 1 day
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# ============================================
+# SECURITY AUDIT
+# ============================================
+security-audit:
+  stage: lint
+  image: node:${NODE_VERSION}
+  script:
+    - npm audit --audit-level=high
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# ============================================
+# DEPLOY (Example: Vercel)
+# ============================================
+deploy-production:
+  stage: deploy
+  image: node:${NODE_VERSION}
+  dependencies:
+    - build
+  before_script:
+    - npm install -g vercel
+  script:
+    - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+    - vercel build --prod --token=$VERCEL_TOKEN
+    - vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+  environment:
+    name: production
+    url: https://{{PROJECT_URL}}
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+
+# ============================================
+# DEPLOY STAGING (Automatic on MR)
+# ============================================
+deploy-staging:
+  stage: deploy
+  image: node:${NODE_VERSION}
+  dependencies:
+    - build
+  before_script:
+    - npm install -g vercel
+  script:
+    - vercel deploy --token=$VERCEL_TOKEN
+  environment:
+    name: staging/$CI_COMMIT_REF_SLUG
+    url: $STAGING_URL
+    on_stop: stop-staging
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+stop-staging:
+  stage: deploy
+  script:
+    - echo "Stopping staging environment"
+  environment:
+    name: staging/$CI_COMMIT_REF_SLUG
+    action: stop
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+```
+
+### GitLab CI Variables
+
+Configure in Settings → CI/CD → Variables:
+
+| Variable | Protected | Masked | Purpose |
+|----------|-----------|--------|---------|
+| `VERCEL_TOKEN` | Yes | Yes | Deployment token |
+| `VERCEL_ORG_ID` | Yes | No | Organization ID |
+| `VERCEL_PROJECT_ID` | Yes | No | Project ID |
+| `SENTRY_DSN` | No | Yes | Error tracking |
+
+---
+
+## 8. Jenkins Pipeline
+
+Create `Jenkinsfile` in your repository root:
+
+```groovy
+// Jenkins Declarative Pipeline
+// Equivalent to GitHub Actions / GitLab CI
+
+pipeline {
+    agent any
+    
+    tools {
+        nodejs 'NodeJS-20'  // Configure in Jenkins Global Tool Configuration
+    }
+    
+    environment {
+        CI = 'true'
+        npm_config_cache = "${WORKSPACE}/.npm"
+    }
+    
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 30, unit: 'MINUTES')
+        disableConcurrentBuilds()
+    }
+    
+    stages {
+        // ============================================
+        // INSTALL DEPENDENCIES
+        // ============================================
+        stage('Install') {
+            steps {
+                sh 'npm ci'
+            }
+        }
+        
+        // ============================================
+        // LINT & TYPE CHECK
+        // ============================================
+        stage('Lint') {
+            parallel {
+                stage('ESLint') {
+                    steps {
+                        sh 'npm run lint'
+                    }
+                }
+                stage('TypeScript') {
+                    steps {
+                        sh 'npx tsc --noEmit'
+                    }
+                }
+            }
+        }
+        
+        // ============================================
+        // TEST
+        // ============================================
+        stage('Test') {
+            steps {
+                sh 'npm test -- --coverage --watchAll=false'
+            }
+            post {
+                always {
+                    publishHTML(target: [
+                        reportDir: 'coverage/lcov-report',
+                        reportFiles: 'index.html',
+                        reportName: 'Coverage Report'
+                    ])
+                }
+            }
+        }
+        
+        // ============================================
+        // SECURITY AUDIT
+        // ============================================
+        stage('Security Audit') {
+            steps {
+                sh 'npm audit --audit-level=high || true'
+            }
+        }
+        
+        // ============================================
+        // BUILD
+        // ============================================
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'dist/**/*', fingerprint: true
+                }
+            }
+        }
+        
+        // ============================================
+        // DEPLOY STAGING
+        // ============================================
+        stage('Deploy Staging') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                withCredentials([string(credentialsId: 'vercel-token', variable: 'VERCEL_TOKEN')]) {
+                    sh '''
+                        npm install -g vercel
+                        vercel deploy --token=$VERCEL_TOKEN
+                    '''
+                }
+            }
+        }
+        
+        // ============================================
+        // DEPLOY PRODUCTION
+        // ============================================
+        stage('Deploy Production') {
+            when {
+                branch 'main'
+            }
+            steps {
+                input message: 'Deploy to production?', ok: 'Deploy'
+                withCredentials([string(credentialsId: 'vercel-token', variable: 'VERCEL_TOKEN')]) {
+                    sh '''
+                        npm install -g vercel
+                        vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+                        vercel build --prod --token=$VERCEL_TOKEN
+                        vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+                    '''
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            slackSend(
+                channel: '#deployments',
+                color: 'good',
+                message: "✅ Build Successful: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+            )
+        }
+        failure {
+            slackSend(
+                channel: '#deployments',
+                color: 'danger',
+                message: "❌ Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}"
+            )
+        }
+        always {
+            cleanWs()
+        }
+    }
+}
+```
+
+### Jenkins Configuration
+
+1. **Install Required Plugins:**
+   - NodeJS Plugin
+   - Pipeline
+   - Slack Notification Plugin (optional)
+   - HTML Publisher Plugin
+
+2. **Configure Global Tools:**
+   - Manage Jenkins → Tools → NodeJS installations
+   - Add NodeJS 20.x
+
+3. **Add Credentials:**
+   - Manage Jenkins → Credentials → Global
+   - Add `vercel-token` as Secret text
+
+---
+
+## 9. Platform Comparison
+
+| Feature | GitHub Actions | GitLab CI | Jenkins |
+|---------|----------------|-----------|---------|
+| **Config File** | `.github/workflows/*.yml` | `.gitlab-ci.yml` | `Jenkinsfile` |
+| **Syntax** | YAML | YAML | Groovy |
+| **Runners** | Hosted / Self-hosted | Shared / Self-hosted | Self-hosted |
+| **Secrets** | Repository Settings | CI/CD Variables | Credentials |
+| **Caching** | `actions/cache@v4` | Built-in | Plugin required |
+| **Matrix Builds** | Native | Native | Plugin required |
+| **Cost** | Free (public), Minutes (private) | Free (400 mins), Paid | Free (self-hosted) |
+
+---
+
 ## Template Variables
 
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `{{PROJECT_NAME}}` | Project name | "SCAINET" |
+| `{{PROJECT_URL}}` | Production URL | "scainet.io" |
 | `{{TIMEZONE}}` | Timezone for schedules | "Australia/Adelaide" |
 | `{{DOCUMENT_LAST_UPDATED}}` | Last update date | "January 2026" |
 | `{{DOCUMENT_OWNER}}` | Document owner | "Simon Case" |
 
 ---
 
-*This template is part of the Chazwazza framework.*
+*This template is part of the Chazwazza framework v3.2*
 
